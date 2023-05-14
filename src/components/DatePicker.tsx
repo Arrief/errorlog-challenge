@@ -1,32 +1,45 @@
-import { useState } from "react";
-import dayjs, { Dayjs } from "dayjs";
+import { useContext, useEffect, useState } from "react";
+import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DateTimePicker } from "@mui/x-date-pickers";
 import { themedInput } from "../styles/ThemedInput";
+import MyContext from "../context/ContextProvider";
 
 export default function ResponsiveDatePicker() {
-  const [dateFrom, setDateFrom] = useState<Dayjs | null>(null);
-  const [dateTo, setDateTo] = useState<Dayjs | null>(null);
+  const [dateFrom, setDateFrom] = useState<number | null>(null);
+  const [dateTo, setDateTo] = useState<number | null>(null);
 
-  // console.log(new Date(value["$d"]));
-  // Object { "$L": "en", "$u": undefined, "$d": Date Sat May 13 2023 00:00:00 GMT+0200 (Central European Summer Time), "$x": {}, "$y": 2023, "$M": 4, "$D": 13, "$W": 6, "$H": 0, "$m": 0, … }
-  //* Option1 - Construct w template literal: `${}`
-  //* Option2 (pref): convert to Unix timestamp im milliseconds:
-  //* console.log(dayjs(value["d"]).valueOf());
+  const context = useContext(MyContext)!;
+
+  // State values dateFrom & dateTo are linked to DateTimePickers, whenever they update, save their value in the userQueries too
+  useEffect(() => {
+    context.handleQueryInput("dateFrom", dateFrom!);
+  }, [dateFrom]);
+
+  useEffect(() => {
+    context.handleQueryInput("dateTo", dateTo!);
+  }, [dateTo]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker
+      <DateTimePicker
         label="Zeitraum von"
         value={dateFrom}
-        onChange={(newValue) => setDateFrom(newValue)}
+        onChange={(newValue) => {
+          // convert to Unix timestamp in milliseconds
+          const unixMilliseconds = dayjs(newValue).valueOf();
+          setDateFrom(unixMilliseconds);
+        }}
         sx={{ ...themedInput, margin: "1rem" }}
       />
-      <DatePicker
+      <DateTimePicker
         label="Zeitraum bis"
         value={dateTo}
-        onChange={(newValue) => setDateTo(newValue)}
+        onChange={(newValue) => {
+          const unixMilliseconds = dayjs(newValue).valueOf();
+          setDateTo(unixMilliseconds);
+        }}
         sx={{ ...themedInput, margin: "1rem" }}
       />
     </LocalizationProvider>

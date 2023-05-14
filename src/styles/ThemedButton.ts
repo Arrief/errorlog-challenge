@@ -1,7 +1,7 @@
 import { Button, ButtonProps } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-export const FilterButton = styled(Button)<ButtonProps>(() => ({
+export const ThemedButton = styled(Button)<ButtonProps>(() => ({
   color: "white",
   backgroundColor: "var(--theme-color)",
   margin: "3rem 0",

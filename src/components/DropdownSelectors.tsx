@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useContext } from "react";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import NativeSelect from "@mui/material/NativeSelect";
+import MyContext from "../context/ContextProvider";
 
 export default function DropdownSelectors() {
-  const [level, setLevel] = useState("-1");
-  const [quelle, setQuelle] = useState("-1");
+  const context = useContext(MyContext)!;
 
   return (
     <>
@@ -15,6 +15,7 @@ export default function DropdownSelectors() {
           <InputLabel
             variant="standard"
             htmlFor="level-select"
+            shrink
             sx={{ margin: "0 1rem" }}
           >
             Level
@@ -25,7 +26,9 @@ export default function DropdownSelectors() {
               name: "level",
               id: "level-select",
             }}
-            onChange={(event) => setLevel(event.target.value)}
+            onChange={(event) =>
+              context.handleQueryInput(event.target.name, event.target.value)
+            }
             sx={{ margin: "1rem" }}
           >
             <option value={0}>0: unknown</option>
@@ -41,7 +44,8 @@ export default function DropdownSelectors() {
         <FormControl fullWidth>
           <InputLabel
             variant="standard"
-            htmlFor="quelle-select"
+            htmlFor="source-select"
+            shrink
             sx={{ margin: "0 1rem" }}
           >
             Quelle
@@ -49,11 +53,13 @@ export default function DropdownSelectors() {
           <NativeSelect
             defaultValue={"-1"}
             inputProps={{
-              name: "quelle",
-              id: "quelle-select",
+              name: "source",
+              id: "source-select",
             }}
-            onChange={(event) => setQuelle(event.target.value)}
-            sx={{ margin: "0 1rem" }}
+            onChange={(event) =>
+              context.handleQueryInput(event.target.name, event.target.value)
+            }
+            sx={{ margin: "2rem 1rem" }}
           >
             <option value={9}>9: HOMEPAGE-TOOL</option>
             <option value={10}>10: SHOW-ROOOOM</option>
