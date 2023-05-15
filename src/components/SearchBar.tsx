@@ -1,13 +1,14 @@
 import { Container, InputAdornment, TextField } from "@mui/material";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useContext } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { themedInput } from "../styles/ThemedInput";
+import MyContext from "../context/ContextProvider";
 
 export default function SearchBar() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const context = useContext(MyContext)!;
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
+    context.handleQueryInput(event.target.name, event.target.value);
   };
 
   return (
@@ -17,9 +18,10 @@ export default function SearchBar() {
       <TextField
         id="search"
         type="text"
-        label="Suche"
+        name="volltext"
+        label="Volltextsuche"
         variant="standard"
-        value={searchTerm}
+        value={context.userQueries.volltext}
         onChange={handleChange}
         sx={{ ...themedInput, width: 400, margin: "2rem auto" }}
         InputProps={{

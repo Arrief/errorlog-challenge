@@ -147,6 +147,19 @@ export default function FilterDrawerRight() {
             onChange={handleChange}
             sx={inputStyling}
           />
+          <TextField
+            id="volltext"
+            name="volltext"
+            label="Volltextsuche"
+            type="text"
+            value={context.userQueries.volltext}
+            variant="standard"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={handleChange}
+            sx={inputStyling}
+          />
           <Container
             sx={{
               display: "flex",

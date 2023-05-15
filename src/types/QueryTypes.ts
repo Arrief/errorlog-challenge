@@ -6,6 +6,7 @@ export interface IQueries {
   dateFrom: number;
   dateTo: number;
   limit: string;
+  volltext: string;
 }
 
 export interface ILog {

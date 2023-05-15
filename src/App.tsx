@@ -16,6 +16,7 @@ const App = () => {
     dateFrom: -1,
     dateTo: -1,
     limit: "-1",
+    volltext: "",
   };
 
   // Initially start with no filters = all data
@@ -52,6 +53,7 @@ const App = () => {
       headers: new Headers({
         "Content-Type": "application/json",
       }),
+      body: filter.volltext,
     });
     const data = await res.json();
     setLogs(data);
