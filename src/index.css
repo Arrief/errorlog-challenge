@@ -62,7 +62,7 @@ h1 {
   width: 100%;
 }
 
-/* remove default spacer for pagination, otherwise buttons at right */
+/* Remove default spacer for pagination, otherwise buttons at right */
 .MuiTablePagination-spacer {
   display: none;
 }

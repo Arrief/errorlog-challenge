@@ -1,5 +1,12 @@
 import { ChangeEvent, FormEvent, useContext, useState } from "react";
-import { Box, Container, Drawer, IconButton, TextField } from "@mui/material";
+import {
+  Box,
+  Container,
+  Drawer,
+  IconButton,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -29,17 +36,18 @@ export default function FilterDrawerRight() {
     setOpen(false);
   };
 
-  // Function to check if the user submitted text instead of a number; if yes, user submission will be ignored, otherwise update state for user queries
-  const submitChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const checkIfNum = parseInt(event.target.value);
-    Number.isNaN(checkIfNum)
-      ? null
-      : context.handleQueryInput(event.target.name, event.target.value);
+  // Update state object with user queries
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    context.handleQueryInput(event.target.name, event.target.value);
   };
 
+  // By updating the filters, useEffect in App.tsx will be triggered to send a new fetch requert to the server with the updated URL
   const handleQuerySubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     context.setFilter(context.userQueries);
+    // Close the filter Drawer & reset all input fields
+    setOpen(false);
+    event.currentTarget.reset();
   };
 
   return (
@@ -93,6 +101,14 @@ export default function FilterDrawerRight() {
             alignItems: "stretch",
           }}
         >
+          <Typography
+            variant="subtitle2"
+            gutterBottom
+            component="h5"
+            sx={{ fontWeight: "bold" }}
+          >
+            Filteroptionen (alle Felder leer = alle Daten)
+          </Typography>
           <ResponsiveDatePicker />
           <TextField
             id="number-customerid"
@@ -103,7 +119,7 @@ export default function FilterDrawerRight() {
             InputLabelProps={{
               shrink: true,
             }}
-            onChange={submitChange}
+            onChange={handleChange}
             sx={inputStyling}
           />
           <TextField
@@ -115,19 +131,20 @@ export default function FilterDrawerRight() {
             InputLabelProps={{
               shrink: true,
             }}
-            onChange={submitChange}
+            onChange={handleChange}
             sx={inputStyling}
           />
           <DropdownSelectors />
           <TextField
             id="number-limits"
+            name="limit"
             label="Limit Ergebnisse"
             type="number"
             variant="standard"
             InputLabelProps={{
               shrink: true,
             }}
-            onChange={submitChange}
+            onChange={handleChange}
             sx={inputStyling}
           />
           <Container
@@ -138,7 +155,7 @@ export default function FilterDrawerRight() {
             }}
           >
             <ThemedButton name="filter-query" type="submit">
-              Filtern
+              Update
             </ThemedButton>
           </Container>
         </form>

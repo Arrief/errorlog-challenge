@@ -3,12 +3,11 @@ import MyContext from "./context/ContextProvider";
 import FilterDrawerRight from "./components/FilterSelection";
 import SearchBar from "./components/SearchBar";
 import PaginatedTable from "./components/Table";
-import { PacmanLoader } from "react-spinners";
 import { IQueries, TResults } from "./types/QueryTypes";
 import { IContext } from "./types/ContextTypes";
 
 const App = () => {
-  // template for no filters selected
+  // Template for no filters selected
   const noFilterQuery: IQueries = {
     idCustomer: "-1",
     idUser: "-1",
@@ -33,7 +32,7 @@ const App = () => {
     });
   };
 
-  // state values & updaters that will be accessible through context
+  // State values & updaters that will be accessible through context
   const contextProviderValues: IContext = {
     noFilterQuery,
     filter,
@@ -46,11 +45,7 @@ const App = () => {
   // Error logs received from the server
   const [logs, setLogs] = useState<TResults | []>([]);
 
-  const [loading, setLoading] = useState(false);
-
   const fetchData = async function (url: string) {
-    setLoading(true);
-
     const res = await fetch(url, {
       method: "POST",
       mode: "cors",
@@ -60,8 +55,6 @@ const App = () => {
     });
     const data = await res.json();
     setLogs(data);
-
-    setLoading(false);
   };
 
   // Default is all values set to -1 = no filter applied = all data
@@ -73,41 +66,19 @@ const App = () => {
     // Reset all user queries after a search was submitted, so next time user submits empty form, all data will be displayed again.
     setUserQueries(noFilterQuery);
   }, [filter]);
-  console.log(logs);
-
-  const loaderStyle = {
-    display: "flex",
-    justifyItems: "center",
-    alignItems: "center",
-    gap: "1rem",
-    margin: "20rem auto 0 auto",
-  };
 
   return (
     <>
       <h1>Error Log</h1>
-      {
-        <>
-          {loading ? (
-            <PacmanLoader
-              color="var(--theme-color)"
-              cssOverride={loaderStyle}
-              size={50}
-              aria-label="Loading Spinner"
-            />
-          ) : (
-            <MyContext.Provider value={contextProviderValues}>
-              <section className="search-section">
-                <SearchBar />
-                <FilterDrawerRight />
-              </section>
-              <section className="table-section">
-                <PaginatedTable logs={logs} />
-              </section>
-            </MyContext.Provider>
-          )}{" "}
-        </>
-      }
+      <MyContext.Provider value={contextProviderValues}>
+        <section className="search-section">
+          <SearchBar />
+          <FilterDrawerRight />
+        </section>
+        <section className="table-section">
+          <PaginatedTable logs={logs} />
+        </section>
+      </MyContext.Provider>
     </>
   );
 };

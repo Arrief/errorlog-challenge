@@ -26,8 +26,13 @@ export default function ResponsiveDatePicker() {
       <DateTimePicker
         label="Zeitraum von"
         value={dateFrom}
+        /* Adds a "clear" button to manually reset selected date; Problem: sets dateFrom to NaN, interferes with next server request if user does not select another date after clearing.
+            slotProps={{
+            actionBar: { actions: ["clear"] },
+            }}
+        */
         onChange={(newValue) => {
-          // convert to Unix timestamp in milliseconds
+          // Convert to Unix timestamp in milliseconds
           const unixMilliseconds = dayjs(newValue).valueOf();
           setDateFrom(unixMilliseconds);
         }}

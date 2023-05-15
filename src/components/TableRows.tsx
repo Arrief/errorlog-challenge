@@ -72,8 +72,9 @@ export default function Row(props: { data: ILog }) {
             <Box sx={{ margin: 1 }}>
               <Typography
                 variant="h6"
-                sx={{ marginBottom: "1rem" }}
-                component="h5"
+                gutterBottom
+                component="h3"
+                sx={{ fontWeight: "bold" }}
               >
                 Fehlerbeschreibung
               </Typography>
@@ -81,9 +82,17 @@ export default function Row(props: { data: ILog }) {
                 <TableBody>
                   <>
                     {/* Full "Kurzbeschreibung" and error message */}
-                    {data.topic ?? "Keine Kurzbeschreibung"}
+                    <Typography
+                      variant="subtitle2"
+                      component="h5"
+                      sx={{ fontStyle: "italic" }}
+                    >
+                      {data.topic ?? "Keine Kurzbeschreibung"}
+                    </Typography>
                     <div>&nbsp;</div>
-                    {data.msg}
+                    <Typography variant="body2" component="p">
+                      {data.msg}
+                    </Typography>
                   </>
                 </TableBody>
               </Table>
