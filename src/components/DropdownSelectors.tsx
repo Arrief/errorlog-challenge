@@ -1,8 +1,5 @@
 import { useContext } from "react";
-import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-import NativeSelect from "@mui/material/NativeSelect";
+import { Box, InputLabel, FormControl, NativeSelect } from "@mui/material";
 import MyContext from "../context/ContextProvider";
 
 export default function DropdownSelectors() {
